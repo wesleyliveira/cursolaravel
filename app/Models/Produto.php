@@ -9,6 +9,16 @@ class Produto extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nome',
+        'descricao',
+        'preco',
+        'slug',
+        'id_categoria',
+        'id_user',
+        'imagem',
+    ];
+
     //Nome da Tabela
     protected $table = 'produtos';
     
@@ -19,4 +29,6 @@ class Produto extends Model
     public function categoria(){
         return $this->belongsTo(Categoria::class,'id_categoria');
     }
+
+    
 }

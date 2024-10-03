@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Hardevine\Shoppingcart\Facades\Cart; 
+use App\Models\Produto; // ou o caminho correto para a sua classe Product
+
 
 class CarrinhoController extends Controller
 {
@@ -14,18 +16,23 @@ class CarrinhoController extends Controller
     }
     
     public function adicionaCarrinho(Request $request)
-    {
+    { 
+        
+        // Obtém o produto com base no ID fornecido
+        $produto = Produto::find($request->id); // Certifique-se de que a classe Product esteja importada
+
         \Cart::add([
             'id' => $request->id,
             'name' => $request->name,
             'price' => $request->price,
-            'qty' => $request->qty,
-            'attributes' => [
-                'image' => $request->img,
+            'qty' => abs($request->qty),
+            'options' => [
+                'image' => 'storage/' . $produto->imagem, // Verifica se $produto não é null
             ]
+            
         ]);
 
-        return redirect()->route('site.carrinho')->with('sucesso', 'Produto adicionado no carrinho com sucesso!');
+        return redirect()->route('site.carrinho'); // Redireciona após adicionar ao carrinho
     }
 
     public function removeCarrinho(Request $request)
@@ -41,7 +48,7 @@ class CarrinhoController extends Controller
     }
     
     public function atualizaCarrinho(Request $request){
-        \Cart::update($request->id, $request->qty);
+        \Cart::update ($request->id,abs ($request->qty));
         return redirect()->route('site.carrinho')->with('aviso', 'Produto atualizado!');
     }
     

@@ -17,7 +17,14 @@ class UsersSeeder extends Seeder
             'firstName'=>'Wesley',
             'lastName'=>'Reis',
             'email'=>'contato@wesley.com',
-            'password'=>bcrypt('12345678'),
+            'password'=>bcrypt('9103'),
+        ]);
+
+        User::create([
+            'firstName'=>'Wesley',
+            'lastName'=>'Reis',
+            'email'=>'contato@wesleyreis.com',
+            'password'=>bcrypt('9103'),
         ]);
     }
 }

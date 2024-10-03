@@ -12,7 +12,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -36,8 +36,12 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+    // Exclui o produto com ID 31 da categoria
+    $produtos = $categoria->produtos()->where('id', '!=', 31)->get();
+
+    return view('categoria.show', compact('produtos', 'categoria'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

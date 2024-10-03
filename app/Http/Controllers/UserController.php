@@ -3,23 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Produto;
-use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
-use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
-class ProdutoController extends Controller
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $produtos = Produto::paginate(5);
-        
-
-        return view('admin.produtos', compact('produtos'));
-
+        //
     }
 
     /**
@@ -35,20 +30,14 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-    $produto = $request->all();
+        $user = $request->all();
+        $user['password']=bcrypt($request->password);
+        $user= User::create($user);
 
-    if ($request->hasFile('imagem')) {
-        // Armazena a imagem na pasta 'produtos' no disco público
-        $produto['imagem'] = $request->imagem->store('produtos', 'public'); 
+        Auth::login($user);
+
+        return redirect()->route('admin.dashboard');
     }
-
-    $produto['slug'] = Str::slug($request->nome);
-
-    Produto::create($produto);
-
-    return redirect()->route('admin.produtos')->with('sucesso', 'Produto cadastrado com sucesso!');
-    }
-
 
     /**
      * Display the specified resource.
@@ -77,10 +66,8 @@ class ProdutoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
+    public function destroy(string $id)
     {
-        $produto= Produto::find($id);
-        $produto->delete();
-        return redirect()->route('admin.produtos')->with('sucesso','Produto removido com sucesso!');
+        //
     }
 }

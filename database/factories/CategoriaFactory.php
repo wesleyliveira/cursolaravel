@@ -18,8 +18,8 @@ class CategoriaFactory extends Factory
     {
 
         return [
-            'nome'=>$this->faker->unique()->word,
-            'descricao'=>$this->faker->text,
+            'nome' => 'Alimentos', // Nome da categoria
+            'descricao' => $this->faker->sentence, // Descrição aleatória
         ];
     }
 }
